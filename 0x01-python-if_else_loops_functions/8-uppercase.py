@@ -1,6 +1,4 @@
 #!/usr/bin/python3
-
-
 def to_upper(str):
     new_str = ""
     for c in str:
@@ -9,6 +7,6 @@ def to_upper(str):
         else:
             new_str += c
             return new_str
-
-def uppercase(str):
-    print("{}".format(to_upper(str)))
+        
+        def uppercase(str):
+            print("{}".format(to_upper(str)))
