@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 def uppercase(input_str):
     modified_str = ""
     for ch in input_str:
