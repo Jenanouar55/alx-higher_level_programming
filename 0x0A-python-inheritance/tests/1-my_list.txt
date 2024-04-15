@@ -1,8 +1,4 @@
-The ``1-my_list`` module
-======================
-
-Using ``MyList``
--------------------
+1-my_list 
 
 Importing the function from the module:
         >>> MyList = __import__("1-my_list").MyList
