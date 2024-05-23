@@ -1,5 +1,2 @@
--- Lists all records of the table second_table.
--- Records are ordered by descending score.
-SELECT `score`, `name`
-FROM `second_table`
-ORDER BY `score` DESC;
+-- Deletes the database hbtn_0c_0 from my MySQL server.
+DROP DATABASE IF EXISTS `hbtn_0c_0`;
