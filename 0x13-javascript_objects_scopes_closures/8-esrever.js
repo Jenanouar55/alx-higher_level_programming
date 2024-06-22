@@ -1,5 +1,5 @@
 #!/usr/bin/node
-export function esrever (list) {
+exports.esrever = function (list) {
   let len = list.length - 1;
   let i = 0;
   while ((len - i) > 0) {
@@ -10,4 +10,4 @@ export function esrever (list) {
     len--;
   }
   return list;
-}
+};
