@@ -1,50 +1,40 @@
 #!/usr/bin/python3
-import sys
-import MySQLdb
+"""
+This script  takes in the name of a state
+as an argument and lists all cities of that
+state, using the database `hbtn_0e_4_usa`.
+"""
 
-
-def main():
-    if len(sys.argv) != 5:
-        print("Usage: {} username password database state_name"
-              .format(sys.argv[0]))
-        return
-
-    username = sys.argv[1]
-    password = sys.argv[2]
-    database = sys.argv[3]
-    state_name = sys.argv[4]
-
-    try:
-        db = MySQLdb.connect(
-            host="localhost",
-            user=username,
-            passwd=password,
-            db=database,
-            port=3306
-        )
-
-        cursor = db.cursor()
-
-        # SQL query to fetch cities of the specified state
-        sql_query = ("SELECT GROUP_CONCAT(name SEPARATOR ', ') "
-                     "FROM cities "
-                     "JOIN states ON cities.state_id = states.id "
-                     "WHERE states.name = %s "
-                     "ORDER BY cities.id ASC")
-
-        cursor.execute(sql_query, (state_name,))
-        cities = cursor.fetchone()[0]
-
-        if cities:
-            print(cities)
-
-        cursor.close()
-        db.close()
-
-    except MySQLdb.Error as e:
-        print("MySQL Error {}: {}".format(e.args[0], e.args[1]))
-        return
-
+import MySQLdb as db
+from sys import argv
 
 if __name__ == "__main__":
-    main()
+    """
+    Access to the database and get the cities
+    from the database.
+    """
+
+    db_connect = db.connect(host="localhost", port=3306,
+                            user=argv[1], passwd=argv[2], db=argv[3])
+
+    with db_connect.cursor() as db_cursor:
+        db_cursor.execute("""
+            SELECT
+                cities.id, cities.name
+            FROM
+                cities
+            JOIN
+                states
+            ON
+                cities.state_id = states.id
+            WHERE
+                states.name LIKE BINARY %(state_name)s
+            ORDER BY
+                cities.id ASC
+        """, {
+            'state_name': argv[4]
+        })
+        rows_selected = db_cursor.fetchall()
+
+    if rows_selected is not None:
+        print(", ".join([row[1] for row in rows_selected]))
